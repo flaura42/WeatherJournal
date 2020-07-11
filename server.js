@@ -24,5 +24,11 @@ app.get('/all', (req, res) => {
 // POST request
 app.post('/add', (req, res) => {
   const data = req.body;
-  console.log(data);
+  res.status(200).send({
+    success: true,
+    message: 'Data saved',
+    data: data
+  });
+  Object.assign(projectData, data);
+  console.log(projectData);
 });
