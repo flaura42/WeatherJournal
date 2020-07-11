@@ -14,7 +14,28 @@
   <main>
     <section id="weather">
       <h2>Here's what the weather is like outside:</h2>
-      <button type="button" onclick="getWeather()">Get Weather</button>
+      <button id="weather-button" type="button" onclick="getWeather()">Get Weather</button>
+    </section>
+    <section id="my-weather">
+      <h3>Here's what the weather is like inside:</h3>
+      <form> <!--  method="post" target="_self"  -->
+        <label for="current-temp">Current Temperature: </label>
+        <input type="text" id="current-temp" name="current-temp">
+        <label for="feels-like">Feels Like: </label>
+        <input type="text" id="feels-like" name="feels-like">
+        <label for="description">Description: </label>
+        <select id="description" name="description">
+          <option value="01">Clear Sky</option>
+          <option value="02">Partly Sunny</option>
+          <option value="04">Cloudy</option>
+          <option value="10">Light Rain</option>
+          <option value="09">Rain Showers</option>
+          <option value="11">Thunderstorm</option>
+          <option value="50">Mist</option>
+          <option value="13">Snow</option>
+        </select>
+        <button id="my-button" type="button" onclick="myWeather()">Save Weather</button>
+      </form>
     </section>
   </main>
   <footer>

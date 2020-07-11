@@ -64,7 +64,6 @@ function getWeather() {
   if (section.contains(checkDiv) ) {
     section.removeChild(checkDiv);
   }
-
   const div = document.createElement('div');
   div.id = 'weather-div';
 
@@ -83,8 +82,56 @@ function getWeather() {
   img.className = 'results-icon';
   img.src = `http://openweathermap.org/img/wn/${icon}@2x.png`
   div.appendChild(img);
-  const button = document.querySelector('button');
+  const button = document.getElementById('weather-button');
   section.insertBefore(div, button);
+}
+
+async function myWeather() {
+  try {
+    const data = await getMyWeather();
+    postData(data);
+    const section = document.getElementById('my-weather');
+    const checkDiv = document.getElementById('my-weather-div');
+    if (section.contains(checkDiv) ) {
+      section.removeChild(checkDiv);
+    }
+
+    const div = document.createElement('div');
+    div.id = 'my-weather-div';
+
+    for (let i=0; i<2; i++) {
+      const key = Object.keys(data)[i];
+      const info = Object.entries(data)[i][1];
+      console.log(key, info);
+      const p = document.createElement('p');
+      p.className = `my-results-${key}`;
+      p.innerHTML = info;
+      div.appendChild(p);
+    }
+    const icon = Object.entries(data)[2][1];
+    console.log(icon);
+    const img = document.createElement('img');
+    img.className = 'my-results-icon';
+    img.src = `http://openweathermap.org/img/wn/${icon}d@2x.png`
+    div.appendChild(img);
+    const form = document.querySelector('form');
+    section.insertBefore(div, form);
+  } catch(e) {
+    console.log('Error: ', e);
+  }
+}
+
+function getMyWeather() {
+  const mtemp = document.getElementById('current-temp').value;
+  const mfeel = document.getElementById('feels-like').value;
+  const mdesc = document.getElementById('description').value;
+  const data = {
+    mtemp: `Current Temperature: ${mtemp}`,
+    mfeels: `Feels Like: ${mfeel}`,
+    mdesc: mdesc
+  };
+  console.log(data);
+  return data;
 }
 
 
@@ -125,7 +172,6 @@ function getWeather() {
 //   }
 // }
 
-
 const getData = async(url, key) => {
   const request = await fetch(link);
   if (request.ok) {
@@ -152,9 +198,6 @@ const postData = async(data) => {
     },
     body: JSON.stringify(data),
   });
-
-  // return response.json();
-
   try {
     const newData = await response.json();
     console.log(newData);
