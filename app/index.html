@@ -3,28 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link rel="stylesheet" href="css/styles.css"> -->
+  <link rel="stylesheet" href="css/styles.css">
   <title>Weather Journal</title>
 </head>
 <body>
   <header>
     <h1>Weather Journal</h1>
-    <nav></nav>
   </header>
   <main>
-    <section id="forms">
-      <form id="outside-form">
-        <label for="zipcode">Enter Zipcode: </label>
-        <input type="text" id="zipcode" name="zipcode">
-        <button id="outside-button" type="button" onclick="getOutside()">Get Weather</button>
+    <section id="forms" class="grid">
+      <h2 class="center">What's the Weather Like?</h2>
+      <form id="outside-form"  class="left spacing">
+        <h3>Enter Zipcode to Get Weather Outside:</h3>
+        <div>
+          <label for="zipcode">Enter Zipcode: </label>
+          <input type="text" id="zipcode" class="box" name="zipcode">
+          <button id="outside-button" class="box" type="button" onclick="getOutside()">Get Weather</button>
+        </div>
       </form>
-      <form id="inside-form">
-        <label for="current-temp">Current Temperature: </label>
-        <input type="text" id="current-temp" name="current-temp">
-        <label for="feels-like">Feels Like: </label>
-        <input type="text" id="feels-like" name="feels-like">
-        <label for="description">Description: </label>
-        <select id="description" name="description">
+      <form id="inside-form"  class="right spacing">
+        <h3>Fill Out Form to Get Weather Inside:</h3>
+        <div class="flex">
+          <label for="current-temp">Temperature: </label>
+          <input type="text" id="current-temp" class="box" name="current-temp">
+          <label for="description">Description: </label>
+          <select id="description" class="box" name="description">
           <option value="null" disabled selected hidden>Choose one:</option>
           <option value="01">Clear Sky</option>
           <option value="02">Partly Sunny</option>
@@ -35,15 +38,21 @@
           <option value="50">Mist</option>
           <option value="13">Snow</option>
         </select>
-        <button id="inside-button" type="button" onclick="insideWeather()">Save Weather</button>
+        </div>
+        <div class="flex">
+          <label for="feels-like">How Are You Feeling?: </label>
+          <textarea id="feels-like" class="box" name="feels-like" maxlength="100"></textarea>
+          <button id="inside-button" class="box" type="button" onclick="insideWeather()">Save Weather</button>
+        </div>
+
       </form>
     </section>
     <section id="weather">
-      <h2>Here's What the Weather is Like...</h2>
-      <div id="outside">
+      <h2 class="center">Here's What the Weather is Like:</h2>
+      <div id="outside" class="left spacing">
         <h3>Outside:</h3>
       </div>
-      <div id="inside">
+      <div id="inside" class="right spacing">
         <h3>Inside:</h3>
       </div>
     </section>

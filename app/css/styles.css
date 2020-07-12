@@ -1,0 +1,163 @@
+body {
+  background-color: #000;
+  font: 14px/1.8 Verdana, sans-serif;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+header {
+  background: url("../images/sthelens02.jpg") no-repeat bottom;
+  color: #eee;
+  margin: 0;
+  padding: 0;
+}
+
+/* text */
+h1 {
+  margin: 0;
+  padding: 30px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.6em;
+  margin: 0;
+  padding: 20px 0 5px;
+  text-align: center;
+}
+
+h3 {
+  font-size: 1.3em;
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  align-self: center;
+  font-size: 1.15em;
+}
+
+/* general sizing */
+.grid {
+  display: grid;
+  grid: auto / 45% 55%;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.left {
+  grid-column: 1 / 1;
+}
+
+.right {
+  grid-column: 2 / 2;
+}
+
+.center {
+  grid-column: 1 / span 2;
+}
+
+.spacing {
+  margin: 5px 15px;
+}
+
+.box {
+  border: 1px solid #000;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin: 5px 3px;
+  padding: 8px;
+}
+
+/* buttons */
+button {
+  background: linear-gradient(rgb(48, 41, 251, 0.75), rgb(181, 218, 255), rgb(48, 41, 251, 0.75));
+  color: #222;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+#outside-button {
+  margin-left: 20px;
+}
+
+button:hover {
+  background: linear-gradient(rgb(181, 218, 255), rgb(48, 41, 251, 0.75), rgb(181, 218, 255));
+  color: #eee;
+}
+
+/* sections */
+main {
+  /* background: url("../images/clouds03.jpg") no-repeat fixed;
+  background: url("../images/sunset01.jpg") no-repeat fixed; */
+  background: url("../images/sunset02.jpg") no-repeat fixed;
+}
+
+#zipcode, #current-temp {
+  width: 55px;
+}
+
+#feels-like {
+  height: 65px;
+  width: 300px;
+}
+
+#description {
+  width: 120px;
+}
+
+#weather {
+  display: grid;
+  grid: auto / 35% auto;
+}
+
+#outside-div {
+  display: grid;
+  grid: auto / 50% 50%;
+}
+
+#inside-div {
+  display: grid;
+  grid: auto auto auto / 80% auto;
+}
+
+.locale-p {
+  font-size: 1.25em;
+}
+
+.locale-span {
+  margin: 0 20px;
+}
+
+.results-p, .results-mtemp {
+  font-size: 1.15em;
+  grid-column: 1 / 1;
+  margin: 10px 0;
+}
+
+.results-mfeels {
+  font-size: 1.15em;
+  grid-column: 1 / 1;
+  grid-row: 2 / span 2;
+  margin: 10px 0;
+}
+
+.results-icon {
+  grid-column: 2 / span 1;
+  grid-row: 1 / span 2;
+  margin-left: 10px;
+}
+
+footer {
+  background: url("../images/sky01.jpg") no-repeat;
+}
+
+.copy {
+  color: #eee;
+  margin: 0;
+  padding: 10px;
+}

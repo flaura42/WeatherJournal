@@ -1,4 +1,3 @@
-
 const url = 'http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=';
 const key = '&APPID=3ed9b799494729eb2627624c05ce8d6d';
 
@@ -10,7 +9,7 @@ async function getOutside() {
       zipcode: zipcode,
       date: `Date: ${new Date().toLocaleDateString()}`,
       city: `City: ${response.name}`,
-      temp: `Current Temperature: ${Math.round(response.main.temp)}`,
+      temp: `Temperature: ${Math.round(response.main.temp)}`,
       feel: `Feels Like: ${Math.round(response.main.feels_like)}`,
       icon: response.weather[0].icon
     };
@@ -18,17 +17,23 @@ async function getOutside() {
     postData(data);
 
     const locale = document.getElementById('weather');
-    const lDiv = document.createElement('locale-div');
+    const lDiv = document.createElement('div');
+    lDiv.id = 'locale-div';
+    lDiv.className = 'flex center';
 
+    const p = document.createElement('p');
+    p.className = 'locale-p';
     for (let i=1; i<3; i++) {
       const key = Object.keys(data)[i];
       const info = Object.entries(data)[i][1];
       console.log(key, info);
-      const p = document.createElement('p');
-      p.className = `results-${key}`;
-      p.innerHTML = info;
-      lDiv.appendChild(p);
+
+      const span = document.createElement('span');
+      span.className = 'locale-span';
+      span.innerHTML = info;
+      p.appendChild(span);
     }
+    lDiv.appendChild(p);
     h2 = document.querySelector('h2');
     locale.children[0].insertAdjacentElement('afterend', lDiv);
 
@@ -38,14 +43,14 @@ async function getOutside() {
       outside.removeChild(odivck);
     }
 
-    const oDiv = document.createElement('outside-div');
-    oDiv.id = 'weather-div';
+    const oDiv = document.createElement('div');
+    oDiv.id = 'outside-div';
     for (let i=3; i<5; i++) {
       const key = Object.keys(data)[i];
       const info = Object.entries(data)[i][1];
       console.log(key, info);
       const p = document.createElement('p');
-      p.className = `results-${key}`;
+      p.className = 'results-p';
       p.innerHTML = info;
       oDiv.appendChild(p);
     }
@@ -56,6 +61,9 @@ async function getOutside() {
     img.src = `http://openweathermap.org/img/wn/${icon}@2x.png`
     oDiv.appendChild(img);
     outside.appendChild(oDiv);
+
+    const oForm = document.getElementById('outside-form');
+    oForm.reset();
   } catch(e) {
     console.log('error is: ', e);
   }
@@ -79,14 +87,14 @@ async function insideWeather() {
       const info = Object.entries(data)[i][1];
       console.log(key, info);
       const p = document.createElement('p');
-      p.className = `my-results-${key}`;
+      p.className = `results-${key}`;
       p.innerHTML = info;
       iDiv.appendChild(p);
     }
     const icon = Object.entries(data)[2][1];
     console.log(icon);
     const img = document.createElement('img');
-    img.className = 'my-results-icon';
+    img.className = 'results-icon';
     img.src = `http://openweathermap.org/img/wn/${icon}d@2x.png`
     iDiv.appendChild(img);
     const form = document.getElementById('inside-form');
@@ -99,10 +107,10 @@ async function insideWeather() {
 
 function getMyWeather() {
   const mtemp = document.getElementById('current-temp').value;
-  const mfeel = document.getElementById('feels-like').value;
   const mdesc = document.getElementById('description').value;
+  const mfeel = document.getElementById('feels-like').value;
   const data = {
-    mtemp: `Current Temperature: ${mtemp}`,
+    mtemp: `Temperature: ${mtemp}`,
     mfeels: `Feels Like: ${mfeel}`,
     mdesc: mdesc
   };
@@ -193,42 +201,68 @@ const postData = async(data) => {
 //   "name": "Seattle",
 //   "cod": 200
 // }
-
-// function getWeather() {
+//
+// function getOutside() {
+//   // const zipcode = document.getElementById('zipcode').value
 //   const data = {
+//     zipcode: '98133',
 //     date: `Date: ${new Date().toLocaleDateString()}`,
 //     city: `City: ${response.name}`,
-//     temp: `Current Temperature: ${Math.round(response.main.temp)}`,
+//     temp: `Temperature: ${Math.round(response.main.temp)}`,
 //     feel: `Feels Like: ${Math.round(response.main.feels_like)}`,
-//     desc: `Described as: ${response.weather[0].description}`,
 //     icon: response.weather[0].icon
 //   };
+//   console.log('data: ', data);
 //   postData(data);
-//   const section = document.getElementById('weather');
-//   const checkDiv = document.getElementById('weather-div');
-//   if (section.contains(checkDiv) ) {
-//     section.removeChild(checkDiv);
-//   }
-//   const div = document.createElement('div');
-//   div.id = 'weather-div';
 //
-//   for (let i=0; i<5; i++) {
+//   const locale = document.getElementById('weather');
+//   const lDiv = document.createElement('div');
+//   lDiv.id = 'locale-div';
+//   lDiv.className = 'flex center';
+//
+//   const p = document.createElement('p');
+//   p.className = 'locale-p';
+//   for (let i=1; i<3; i++) {
+//     const key = Object.keys(data)[i];
+//     const info = Object.entries(data)[i][1];
+//     console.log(key, info);
+//
+//     const span = document.createElement('span');
+//     span.className = 'locale-span';
+//     span.innerHTML = info;
+//     p.appendChild(span);
+//   }
+//   lDiv.appendChild(p);
+//   h2 = document.querySelector('h2');
+//   locale.children[0].insertAdjacentElement('afterend', lDiv);
+//
+//   const outside = document.getElementById('outside');
+//   const odivck = document.getElementById('outside-div');
+//   if (outside.contains(odivck) ) {
+//     outside.removeChild(odivck);
+//   }
+//
+//   const oDiv = document.createElement('div');
+//   oDiv.id = 'outside-div';
+//   for (let i=3; i<5; i++) {
 //     const key = Object.keys(data)[i];
 //     const info = Object.entries(data)[i][1];
 //     console.log(key, info);
 //     const p = document.createElement('p');
-//     p.className = `results-${key}`;
+//     p.className = 'results-p';
 //     p.innerHTML = info;
-//     div.appendChild(p);
+//     oDiv.appendChild(p);
 //   }
 //   const icon = Object.entries(data)[5][1];
 //   console.log(icon);
 //   const img = document.createElement('img');
 //   img.className = 'results-icon';
 //   img.src = `http://openweathermap.org/img/wn/${icon}@2x.png`
-//   div.appendChild(img);
-//   const button = document.getElementById('weather-button');
-//   section.insertBefore(div, button);
+//   oDiv.appendChild(img);
+//   outside.appendChild(oDiv);
+//
+//   const oForm = document.getElementById('outside-form');
+//   oForm.reset();
 // }
 
 
