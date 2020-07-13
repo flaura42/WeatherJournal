@@ -29,7 +29,7 @@ show.addEventListener('click', (e) => {
 })
 
 const url = 'http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=';
-const key = '&APPID=3ed9b799494729eb2627624c05ce8d6d';
+const key = '&APPID=';
 
 
 // Data functions
