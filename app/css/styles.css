@@ -12,18 +12,21 @@ header {
   padding: 0;
 }
 
+main {
+  background: url("../images/sthelens01.jpg") no-repeat fixed;
+}
+
 /* text */
 h1 {
   margin: 0;
-  padding: 30px;
+  padding: 35px;
   text-align: center;
 }
 
 h2 {
   font-size: 1.6em;
   margin: 0;
-  padding: 20px 0 5px;
-  text-align: center;
+  padding-bottom: 5px;
 }
 
 h3 {
@@ -32,48 +35,78 @@ h3 {
   padding: 0;
 }
 
-label {
-  align-self: center;
-  font-size: 1.15em;
-}
-
-/* general sizing */
-.grid {
-  display: grid;
-  grid: auto / 45% 55%;
-}
-
-.flex {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-}
-
+/* alignment */
 .left {
   grid-column: 1 / 1;
+}
+
+.center {
+  grid-column: 1 / span 2;
+  justify-self: center;
 }
 
 .right {
   grid-column: 2 / 2;
 }
 
-.center {
-  grid-column: 1 / span 2;
+.spacing {
+  background: rgb(220, 220, 220, .2);
+  border: 1px solid #333;
+  border-radius: 8px;
+  margin: 5px 15px;
+  padding: 5px 10px;
 }
 
-.spacing {
-  margin: 5px 15px;
+.invisible {
+  display: none;
+}
+
+/* form */
+#form {
+  margin: auto;
+  max-width: 800px;
+}
+
+.flex-section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0;
+}
+
+.form-data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+label {
+  align-self: center;
+  font-size: 1.15em;
+  margin: 0 5px;
 }
 
 .box {
   border: 1px solid #000;
   border-radius: 5px;
   box-sizing: border-box;
-  margin: 5px 3px;
+  margin: 10px 10px 10px 0 ;
   padding: 8px;
 }
 
-/* buttons */
+#description {
+  width: 120px;
+}
+
+#zip, #current-temp {
+  width: 55px;
+}
+
+#feelings {
+  height: 65px;
+  width: 300px;
+}
+
 button {
   background: linear-gradient(rgb(48, 41, 251, 0.75), rgb(181, 218, 255), rgb(48, 41, 251, 0.75));
   color: #222;
@@ -81,43 +114,37 @@ button {
   font-weight: bold;
 }
 
-#outside-button {
-  margin-left: 20px;
-}
-
 button:hover {
   background: linear-gradient(rgb(181, 218, 255), rgb(48, 41, 251, 0.75), rgb(181, 218, 255));
   color: #eee;
 }
 
-/* sections */
-main {
-  /* background: url("../images/clouds03.jpg") no-repeat fixed;
-  background: url("../images/sunset01.jpg") no-repeat fixed; */
-  background: url("../images/sunset02.jpg") no-repeat fixed;
+/* entry holder */
+#entry-holder {
+  margin: auto;
+  max-width: 800px;
+  padding: 20px 0;
 }
 
-#zipcode, #current-temp {
-  width: 55px;
-}
-
-#feels-like {
-  height: 65px;
-  width: 300px;
-}
-
-#description {
-  width: 120px;
-}
-
-#weather {
+.grid {
   display: grid;
-  grid: auto / 35% auto;
+  grid: auto / 40% 60%;
+}
+
+.locale-p {
+  display: flex;
+  justify-content: center;
+  font-size: 1.25em;
+  margin: 0;
+}
+
+.locale-span {
+  margin: 0 20px;
 }
 
 #outside-div {
   display: grid;
-  grid: auto / 50% 50%;
+  grid: auto / 60% 40%;
 }
 
 #inside-div {
@@ -125,24 +152,9 @@ main {
   grid: auto auto auto / 80% auto;
 }
 
-.locale-p {
-  font-size: 1.25em;
-}
-
-.locale-span {
-  margin: 0 20px;
-}
-
-.results-p, .results-mtemp {
+.results-p {
   font-size: 1.15em;
   grid-column: 1 / 1;
-  margin: 10px 0;
-}
-
-.results-mfeels {
-  font-size: 1.15em;
-  grid-column: 1 / 1;
-  grid-row: 2 / span 2;
   margin: 10px 0;
 }
 

@@ -15,13 +15,12 @@ const server = app.listen(port, () => {
   console.log(`Running on localhost: ${port}`);
 });
 
-// GET request
 app.get('/all', (req, res) => {
   res.send(projectData);
   console.log('response sent');
+  console.log('Getting', projectData);
 });
 
-// POST request
 app.post('/add', (req, res) => {
   const data = req.body;
   res.status(200).send({
@@ -30,5 +29,5 @@ app.post('/add', (req, res) => {
     data: data
   });
   Object.assign(projectData, data);
-  console.log(projectData);
+  console.log('Updated to: ', projectData);
 });

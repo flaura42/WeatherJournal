@@ -1,142 +1,119 @@
+const button = document.getElementById('generate');
+button.addEventListener('click', (e) => {
+  e.preventDefault();
+  // if (event.target.form[0].value)
+  const test = event.target.form[0].value;
+  if (!test) {
+    const conf = confirm('You did not fill out the form. Would you like to display saved data?');
+    if (conf == true) {
+      getData();
+    } else {
+      return;
+    }
+  } else {
+    collectData(e);
+  }
+})
+
+const show = document.getElementById('show-form');
+show.addEventListener('click', (e) => {
+  const holder = document.getElementById('entry-holder');
+  holder.classList.add('invisible');
+
+  const form = document.getElementById('form');
+  form.reset();
+  form.classList.remove('invisible');
+
+  const show = document.getElementById('show-form');
+  show.classList.add('invisible');
+})
+
 const url = 'http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=';
 const key = '&APPID=3ed9b799494729eb2627624c05ce8d6d';
 
-async function getOutside() {
+
+// Data functions
+// TODO: fix error 'Cannot read property 'temp' of undefined' line 46
+const collectData = async(e) => {
   try {
-    const zipcode = await document.getElementById('zipcode').value
-    const response = await getWeather(zipcode);
+    const weather = await getWeather(e.target.form[0].value);
+    const now = await getNow();
+    const time = now[1];
+    const icon = e.target.form[2].value;
     const data = {
-      zipcode: zipcode,
-      date: `Date: ${new Date().toLocaleDateString()}`,
-      city: `City: ${response.name}`,
-      temp: `Temperature: ${Math.round(response.main.temp)}`,
-      feel: `Feels Like: ${Math.round(response.main.feels_like)}`,
-      icon: response.weather[0].icon
-    };
-    console.log('data: ', data);
+      date: now[0],
+      city: weather.name,
+      oTemp: Math.round(weather.main.temp),
+      oFeel: Math.round(weather.main.feels_like),
+      oIcon: weather.weather[0].icon,
+      iTemp: e.target.form[1].value,
+      iFeel: e.target.form[3].value,
+      iIcon: `${icon}${time}`
+    }
     postData(data);
-
-    const locale = document.getElementById('weather');
-    const lDiv = document.createElement('div');
-    lDiv.id = 'locale-div';
-    lDiv.className = 'flex center';
-
-    const p = document.createElement('p');
-    p.className = 'locale-p';
-    for (let i=1; i<3; i++) {
-      const key = Object.keys(data)[i];
-      const info = Object.entries(data)[i][1];
-      console.log(key, info);
-
-      const span = document.createElement('span');
-      span.className = 'locale-span';
-      span.innerHTML = info;
-      p.appendChild(span);
-    }
-    lDiv.appendChild(p);
-    h2 = document.querySelector('h2');
-    locale.children[0].insertAdjacentElement('afterend', lDiv);
-
-    const outside = document.getElementById('outside');
-    const odivck = document.getElementById('outside-div');
-    if (outside.contains(odivck) ) {
-      outside.removeChild(odivck);
-    }
-
-    const oDiv = document.createElement('div');
-    oDiv.id = 'outside-div';
-    for (let i=3; i<5; i++) {
-      const key = Object.keys(data)[i];
-      const info = Object.entries(data)[i][1];
-      console.log(key, info);
-      const p = document.createElement('p');
-      p.className = 'results-p';
-      p.innerHTML = info;
-      oDiv.appendChild(p);
-    }
-    const icon = Object.entries(data)[5][1];
-    console.log(icon);
-    const img = document.createElement('img');
-    img.className = 'results-icon';
-    img.src = `http://openweathermap.org/img/wn/${icon}@2x.png`
-    oDiv.appendChild(img);
-    outside.appendChild(oDiv);
-
-    const oForm = document.getElementById('outside-form');
-    oForm.reset();
-  } catch(e) {
-    console.log('error is: ', e);
-  }
-}
-
-async function insideWeather() {
-  try {
-    const data = await getMyWeather();
-    postData(data);
-    const inside = document.getElementById('inside');
-    const idivck = document.getElementById('inside-div');
-    if (inside.contains(idivck) ) {
-      inside.removeChild(idivck);
-    }
-
-    const iDiv = document.createElement('div');
-    iDiv.id = 'inside-div';
-
-    for (let i=0; i<2; i++) {
-      const key = Object.keys(data)[i];
-      const info = Object.entries(data)[i][1];
-      console.log(key, info);
-      const p = document.createElement('p');
-      p.className = `results-${key}`;
-      p.innerHTML = info;
-      iDiv.appendChild(p);
-    }
-    const icon = Object.entries(data)[2][1];
-    console.log(icon);
-    const img = document.createElement('img');
-    img.className = 'results-icon';
-    img.src = `http://openweathermap.org/img/wn/${icon}d@2x.png`
-    iDiv.appendChild(img);
-    const form = document.getElementById('inside-form');
-    form.reset();
-    inside.appendChild(iDiv);
+    fillPage(data);
   } catch(e) {
     console.log('Error: ', e);
   }
 }
 
-function getMyWeather() {
-  const mtemp = document.getElementById('current-temp').value;
-  const mdesc = document.getElementById('description').value;
-  const mfeel = document.getElementById('feels-like').value;
-  const data = {
-    mtemp: `Temperature: ${mtemp}`,
-    mfeels: `Feels Like: ${mfeel}`,
-    mdesc: mdesc
-  };
-  console.log(data);
+const getNow = () => {
+  const current = new Date();
+  const date = current.toLocaleDateString();
+  const hour = current.getHours();
+  let time;
+  if (hour > 16 || hour < 8) {
+    time = 'n';
+  } else {
+    time = 'd';
+  }
+  const data = [date, time];
   return data;
 }
 
-const getWeather = async(zipcode) => {
-  console.log(url+zipcode+key)
-  const request = await fetch(url+zipcode+key);
-  if (request.ok) {
-    console.log('ok');
-  } else {
-    console.log(request.status);
+const getWeather = async(zip) => {
+  const req = await fetch(url+zip+key);
+  if (!req.ok) {
+    console.log(req.status);
   }
   try {
-    const response = await request.json();
-    return response;
-  } catch(error) {
-    console.log('error: ', error);
+    const res = await req.json();
+    return res;
+  } catch(e) {
+    console.log('error: ', e);
+  }
+}
+
+const getData = async() => {
+  const res = await fetch('/all', {
+    method: 'GET',
+    mode: 'cors',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+  try {
+    const data = await res.json();
+
+    // fix icon problem
+    let iIcon = Object.entries(data)[7][1];
+    if (iIcon === 'nulld' || iIcon === 'nulln') {
+      Object.defineProperty(data, 'iIcon', {value: ''});
+    }
+
+    let oIcon = Object.entries(data)[4][1];
+    if (oIcon === 'nulld' || oIcon === 'nulln') {
+      Object.defineProperty(data, 'oIcon', {value: ''});
+    }
+    fillPage(data);
+  } catch(e) {
+    console.log('error: ', e);
   }
 }
 
 const postData = async(data) => {
-  console.log('posting: ', data);
-  const response = await fetch('/add', {
+  const res = await fetch('/add', {
     method: 'POST',
     mode: 'cors',
     credentials: 'same-origin',
@@ -146,125 +123,107 @@ const postData = async(data) => {
     body: JSON.stringify(data),
   });
   try {
-    const newData = await response.json();
-    console.log(newData);
+    const newData = await res.json();
     return newData;
-  } catch(error) {
-    console.log('error: ', error);
+  } catch(e) {
+    console.log('error: ', e);
   }
 }
 
-// For easy testing
-// const link = 'http://api.openweathermap.org/data/2.5/weather?zip=98133&units=imperial&APPID=3ed9b799494729eb2627624c05ce8d6d'
+function fillPage(res) {
+  const data = {
+    date: `Date: ${res.date}`,
+    city: `City: ${res.city}`,
+    oTemp: `Temperature: ${res.oTemp}`,
+    oFeel: `Feels Like: ${res.oFeel}`,
+    oIcon: res.oIcon,
+    iTemp: `Temperature: ${res.iTemp}`,
+    iFeel: `Feels Like: ${res.iFeel}`,
+    iIcon: res.iIcon
+  };
 
-// const response = {
-//   "coord": {
-//     "lon": -122.34,
-//     "lat": 47.74
-//   },
-//   "weather": [
-//     {
-//       "id": 803,
-//       "main": "Clouds",
-//       "description": "broken clouds",
-//       "icon": "04n"
-//     }
-//   ],
-//   "base": "stations",
-//   "main": {
-//     "temp": 54.61,
-//     "feels_like": 51.75,
-//     "temp_min": 53.01,
-//     "temp_max": 55.99,
-//     "pressure": 1019,
-//     "humidity": 81
-//   },
-//   "visibility": 16093,
-//   "wind": {
-//     "speed": 4.7,
-//     "deg": 340
-//   },
-//   "clouds": {
-//     "all": 1
-//   },
-//   "dt": 1560350645,
-//   "sys": {
-//     "type": 1,
-//     "id": 5122,
-//     "message": 0.0139,
-//     "country": "US",
-//     "sunrise": 1560343627,
-//     "sunset": 1560396563
-//   },
-//   "timezone": -25200,
-//   "id": 420006353,
-//   "name": "Seattle",
-//   "cod": 200
-// }
-//
-// function getOutside() {
-//   // const zipcode = document.getElementById('zipcode').value
-//   const data = {
-//     zipcode: '98133',
-//     date: `Date: ${new Date().toLocaleDateString()}`,
-//     city: `City: ${response.name}`,
-//     temp: `Temperature: ${Math.round(response.main.temp)}`,
-//     feel: `Feels Like: ${Math.round(response.main.feels_like)}`,
-//     icon: response.weather[0].icon
-//   };
-//   console.log('data: ', data);
-//   postData(data);
-//
-//   const locale = document.getElementById('weather');
-//   const lDiv = document.createElement('div');
-//   lDiv.id = 'locale-div';
-//   lDiv.className = 'flex center';
-//
-//   const p = document.createElement('p');
-//   p.className = 'locale-p';
-//   for (let i=1; i<3; i++) {
-//     const key = Object.keys(data)[i];
-//     const info = Object.entries(data)[i][1];
-//     console.log(key, info);
-//
-//     const span = document.createElement('span');
-//     span.className = 'locale-span';
-//     span.innerHTML = info;
-//     p.appendChild(span);
-//   }
-//   lDiv.appendChild(p);
-//   h2 = document.querySelector('h2');
-//   locale.children[0].insertAdjacentElement('afterend', lDiv);
-//
-//   const outside = document.getElementById('outside');
-//   const odivck = document.getElementById('outside-div');
-//   if (outside.contains(odivck) ) {
-//     outside.removeChild(odivck);
-//   }
-//
-//   const oDiv = document.createElement('div');
-//   oDiv.id = 'outside-div';
-//   for (let i=3; i<5; i++) {
-//     const key = Object.keys(data)[i];
-//     const info = Object.entries(data)[i][1];
-//     console.log(key, info);
-//     const p = document.createElement('p');
-//     p.className = 'results-p';
-//     p.innerHTML = info;
-//     oDiv.appendChild(p);
-//   }
-//   const icon = Object.entries(data)[5][1];
-//   console.log(icon);
-//   const img = document.createElement('img');
-//   img.className = 'results-icon';
-//   img.src = `http://openweathermap.org/img/wn/${icon}@2x.png`
-//   oDiv.appendChild(img);
-//   outside.appendChild(oDiv);
-//
-//   const oForm = document.getElementById('outside-form');
-//   oForm.reset();
-// }
+  // enter locale data
+  const section = document.getElementById('entries');
+  const lDivCk = document.getElementById('locale-div');
+  if (section.contains(lDivCk) ) {
+    section.removeChild(lDivCk);
+  }
 
+  const lDiv = document.createElement('div');
+  lDiv.id = 'locale-div';
+  lDiv.className = 'center';
+  const p = document.createElement('p');
+  p.className = 'locale-p';
+  for (let i=0; i<2; i++) {
+    const info = Object.entries(data)[i][1];
+    const span = document.createElement('span');
+    span.className = 'locale-span';
+    span.innerHTML = info;
+    p.appendChild(span);
+  }
+  lDiv.appendChild(p);
+  h2 = document.querySelector('h2');
+  section.children[0].insertAdjacentElement('afterend', lDiv);
 
-// postData('/add', {key: value});
-// postData('/add', {key: value, key: value});
+  // enter outside data
+  const outside = document.getElementById('outside');
+  const oDivCk = document.getElementById('outside-div');
+  if (outside.contains(oDivCk) ) {
+    outside.removeChild(oDivCk);
+  }
+
+  const oDiv = document.createElement('div');
+  oDiv.id = 'outside-div';
+  for (let i=2; i<4; i++) {
+    const info = Object.entries(data)[i][1];
+    const p = document.createElement('p');
+    p.className = 'results-p';
+    p.innerHTML = info;
+    oDiv.appendChild(p);
+  }
+
+  const oIcon = Object.entries(data)[4][1];
+  if (oIcon) {
+    const oImg = document.createElement('img');
+    oImg.className = 'results-icon';
+    oImg.src = `http://openweathermap.org/img/wn/${oIcon}@2x.png`
+    oDiv.appendChild(oImg);
+  }
+  outside.appendChild(oDiv);
+
+  // enter inside data
+  const inside = document.getElementById('inside');
+  const iDivCk = document.getElementById('inside-div');
+  if (inside.contains(iDivCk) ) {
+    inside.removeChild(iDivCk);
+  }
+
+  const iDiv = document.createElement('div');
+  iDiv.id = 'inside-div';
+  for (let i=5; i<7; i++) {
+    const info = Object.entries(data)[i][1];
+    const p = document.createElement('p');
+    p.className = `results-p`;
+    p.innerHTML = info;
+    iDiv.appendChild(p);
+  }
+
+  const iIcon = Object.entries(data)[7][1];
+  if (iIcon) {
+    const iImg = document.createElement('img');
+    iImg.className = 'results-icon';
+    iImg.src = `http://openweathermap.org/img/wn/${iIcon}@2x.png`
+    iDiv.appendChild(iImg);
+  }
+  inside.appendChild(iDiv);
+
+  const holder = document.getElementById('entry-holder');
+  holder.classList.remove('invisible');
+
+  const form = document.getElementById('form');
+  form.reset();
+  form.classList.add('invisible');
+
+  const show = document.getElementById('show-form');
+  show.classList.remove('invisible');
+}
