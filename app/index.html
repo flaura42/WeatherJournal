@@ -7,56 +7,60 @@
   <title>Weather Journal</title>
 </head>
 <body>
+    <div class = "wrapper">
   <header>
     <h1>Weather Journal</h1>
   </header>
-  <main>
-    <section id="form-section" class="flex-section">
-      <h2>What's the Weather Like?</h2>
-      <form id="form">
-        <div id="data" class="form-data spacing">
-          <label for="zip">Enter Zipcode:</label>
-          <input type="text" id="zip" class="box" name="zip">
 
-          <label for="current-temp">Temperature:</label>
-          <input type="text" id="current-temp" class="box" name="current-temp">
+    <main>
+      <section id="form-section" class="flex-section">
+        <h2>What's the Weather Like?</h2>
+        <form id="form">
+          <div id="data" class="form-data spacing">
+            <label for="zip">Enter Zipcode:</label>
+            <input type="text" id="zip" class="box" name="zip">
 
-          <label for="description">Description:</label>
-          <select id="description" class="box" name="description">
-            <option value="null" disabled selected hidden>Choose one:</option>
-            <option value="01">Clear Sky</option>
-            <option value="02">Partly Sunny</option>
-            <option value="04">Cloudy</option>
-            <option value="10">Light Rain</option>
-            <option value="09">Rain Showers</option>
-            <option value="11">Thunderstorm</option>
-            <option value="50">Mist</option>
-            <option value="13">Snow</option>
-          </select>
+            <label for="current-temp">Temperature:</label>
+            <input type="text" id="current-temp" class="box" name="current-temp">
 
-          <label for="feelings">How Are You Feeling?:</label>
-          <textarea id="feelings" class="box" name="feelings" maxlength="100"></textarea>
+            <label for="description">Description:</label>
+            <select id="description" class="box" name="description">
+              <option value="null" disabled selected hidden>Choose one:</option>
+              <option value="01">Clear Sky</option>
+              <option value="02">Partly Sunny</option>
+              <option value="04">Cloudy</option>
+              <option value="10">Light Rain</option>
+              <option value="09">Rain Showers</option>
+              <option value="11">Thunderstorm</option>
+              <option value="50">Mist</option>
+              <option value="13">Snow</option>
+            </select>
 
-          <button id="generate" class="box" type="submit">Save Weather</button>
+            <label for="feelings">How Are You Feeling?:</label>
+            <textarea id="feelings" class="box" name="feelings" maxlength="100"></textarea>
+
+            <button id="generate" class="box" type="submit">Save Weather</button>
+          </div>
+        </form>
+        <button id="show-form" class="box invisible" type="button">Show Form</button>
+      </section>
+      <section id="entry-holder" class="invisible">
+        <div id="entries" class="grid">
+          <h2 class="center">Here's What the Weather is Like:</h2>
+          <div id="outside" class="left spacing">
+            <h3>Outside:</h3>
+          </div>
+          <div id="inside" class="right spacing">
+            <h3>Inside:</h3>
+          </div>
         </div>
-      </form>
-      <button id="show-form" class="box invisible" type="button">Show Form</button>
-    </section>
-    <section id="entry-holder" class="invisible">
-      <div id="entries" class="grid">
-        <h2 class="center">Here's What the Weather is Like:</h2>
-        <div id="outside" class="left spacing">
-          <h3>Outside:</h3>
-        </div>
-        <div id="inside" class="right spacing">
-          <h3>Inside:</h3>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <p class="copy">&copy;2020 Laura Franklin</p>
-  </footer>
-  <script src="js/app.js"></script>
+      </section>
+    </main>
+    <footer>
+      <p class="copy">&copy;2020 Laura Franklin</p>
+    </footer>
+  </div>
+    <script src="js/app.js"></script>
+  </div>
 </body>
 </html>
