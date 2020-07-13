@@ -50,6 +50,18 @@ h3 {
   grid-column: 2 / 2;
 }
 
+.top {
+  display: flex;
+}
+
+.middle {
+  display: flex;
+}
+
+.bottom {
+  display: flex;
+}
+
 .spacing {
   margin: 5px 15px;
 }
@@ -117,6 +129,10 @@ button:hover {
   color: #eee;
 }
 
+#show-form {
+  height: 65px;
+}
+
 /* entry holder */
 #entry-holder {
   margin: auto;
@@ -168,6 +184,7 @@ button:hover {
   grid-column: 2 / span 1;
   grid-row: 1 / span 2;
   margin-left: 10px;
+  width: 100px;
 }
 
 .copy {
@@ -175,4 +192,139 @@ button:hover {
   margin: 0;
   padding: 30px 0 10px;
   text-align: center;
+}
+
+/* media queries */
+@media (max-width: 685px) {
+  h1 {
+    font-size: 1.8em;
+    padding: 15px 0 10px
+  }
+
+  h2 {
+    font-size: 1.4em;
+  }
+
+  h3 {
+    font-size: 1.15em;
+  }
+
+  .bottom {
+    flex-direction: column;
+    margin-right: 15px;
+  }
+
+  .middle {
+    justify-content: center;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  #generate {
+    align-self: flex-end;
+    height: 65px;
+  }
+
+  .grid {
+    grid: auto / 35% auto;
+  }
+
+  #outside-div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #inside-div {
+    grid: auto auto / 70% auto;
+  }
+
+  .locale-p {
+    font-size: 1.15em;
+  }
+
+  label, .results-p  {
+    font-size: 1em;
+  }
+
+  .results-icon {
+    margin: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .flex-section {
+    padding: 15px;
+  }
+
+  #entry-holder {
+    padding: 15px;
+  }
+
+  #show-form {
+    height: 40px;
+  }
+
+  .grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .center {
+    align-self: center;
+  }
+
+  .spacing {
+    margin: 10px 0;
+  }
+
+  #outside-div {
+    display: grid;
+  }
+
+  .copy {
+    padding: 14px 0;
+  }
+
+}
+
+@media (max-width: 465px) {
+  .results-icon {
+    width: 75px;
+  }
+
+  .flex-section {
+    padding: 10px;
+  }
+
+  .copy {
+    padding: 10px 0;
+  }
+}
+
+@media (max-width: 435px) {
+  .top {
+    display: grid;
+    grid: auto auto / auto auto;
+  }
+
+  .results-icon {
+    display: none;
+  }
+
+  #outside-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #outside-div .results-p {
+    margin: 0 10px;
+  }
+
+  #inside-div {
+    display: flex;
+    flex-direction: column;
+  }
+
+
 }

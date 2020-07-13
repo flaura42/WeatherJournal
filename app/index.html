@@ -17,29 +17,33 @@
         <h2>What's the Weather Like?</h2>
         <form id="form">
           <div id="data" class="form-data spacing">
-            <label for="zip">Enter Zipcode:</label>
-            <input type="text" id="zip" class="box" name="zip">
+            <div class="top">
+              <label for="zip">Enter Zipcode:</label>
+              <input type="text" id="zip" class="box" name="zip">
 
-            <label for="current-temp">Temperature:</label>
-            <input type="text" id="current-temp" class="box" name="current-temp">
-
-            <label for="description">Description:</label>
-            <select id="description" class="box" name="description">
-              <option value="null" disabled selected hidden>Choose one:</option>
-              <option value="01">Clear Sky</option>
-              <option value="02">Partly Sunny</option>
-              <option value="04">Cloudy</option>
-              <option value="10">Light Rain</option>
-              <option value="09">Rain Showers</option>
-              <option value="11">Thunderstorm</option>
-              <option value="50">Mist</option>
-              <option value="13">Snow</option>
-            </select>
-
-            <label for="feelings">How Are You Feeling?:</label>
-            <textarea id="feelings" class="box" name="feelings" maxlength="100"></textarea>
-
+              <label for="current-temp">Temperature:</label>
+              <input type="text" id="current-temp" class="box" name="current-temp">
+            </div>
+            <div class="middle">
+              <label for="description">Description:</label>
+              <select id="description" class="box" name="description">
+                <option value="null" disabled selected hidden>Choose one:</option>
+                <option value="01">Clear Sky</option>
+                <option value="02">Partly Sunny</option>
+                <option value="04">Cloudy</option>
+                <option value="10">Light Rain</option>
+                <option value="09">Rain Showers</option>
+                <option value="11">Thunderstorm</option>
+                <option value="50">Mist</option>
+                <option value="13">Snow</option>
+              </select>
+            </div>
+            <div class="bottom">
+              <label for="feelings">How Are You Feeling?:</label>
+              <textarea id="feelings" class="box" name="feelings" maxlength="100"></textarea>
+            </div>
             <button id="generate" class="box" type="submit">Save Weather</button>
+
           </div>
         </form>
         <button id="show-form" class="box invisible" type="button">Show Form</button>
