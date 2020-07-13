@@ -4,7 +4,7 @@ button.addEventListener('click', (e) => {
   // if (event.target.form[0].value)
   const test = event.target.form[0].value;
   if (!test) {
-    const conf = confirm('You did not fill out the form. Would you like to display saved data?');
+    const conf = confirm('You did not complete the form. Would you like to display saved data?');
     if (conf == true) {
       getData();
     } else {
@@ -33,7 +33,6 @@ const key = '&APPID=3ed9b799494729eb2627624c05ce8d6d';
 
 
 // Data functions
-// TODO: fix error 'Cannot read property 'temp' of undefined' line 46
 const collectData = async(e) => {
   try {
     const weather = await getWeather(e.target.form[0].value);
@@ -50,8 +49,7 @@ const collectData = async(e) => {
       iFeel: e.target.form[3].value,
       iIcon: `${icon}${time}`
     }
-    postData(data);
-    fillPage(data);
+    verifyData(data);
   } catch(e) {
     console.log('Error: ', e);
   }
@@ -95,20 +93,27 @@ const getData = async() => {
   });
   try {
     const data = await res.json();
-
-    // fix icon problem
-    let iIcon = Object.entries(data)[7][1];
-    if (iIcon === 'nulld' || iIcon === 'nulln') {
-      Object.defineProperty(data, 'iIcon', {value: ''});
-    }
-
-    let oIcon = Object.entries(data)[4][1];
-    if (oIcon === 'nulld' || oIcon === 'nulln') {
-      Object.defineProperty(data, 'oIcon', {value: ''});
-    }
-    fillPage(data);
+    verifyData(data);
   } catch(e) {
     console.log('error: ', e);
+  }
+}
+
+const verifyData = (data) => {
+  let check = Object.values(data);
+  if (check.length !== 0) {
+    let iIcon = Object.getOwnPropertyDescriptor(data, 'iIcon');
+    if (iIcon.value.includes(null)) {
+      Object.defineProperty(data, 'iIcon', {value: ''});
+    }
+    let oIcon = Object.getOwnPropertyDescriptor(data, 'oIcon');
+    if (oIcon.value.includes(null)) {
+      Object.defineProperty(data, 'oIcon', {value: ''});
+    }
+    postData(data);
+    fillPage(data);
+  } else {
+    alert('Sorry! It appears there is no data stored.  Please complete the form.');
   }
 }
 
