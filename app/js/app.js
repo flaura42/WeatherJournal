@@ -1,9 +1,8 @@
 const button = document.getElementById('generate');
 button.addEventListener('click', (e) => {
   e.preventDefault();
-  // if (event.target.form[0].value)
-  const test = event.target.form[0].value;
-  if (!test) {
+  const check = event.target.form[0].value;
+  if (!check) {
     const conf = confirm('You did not complete the form. Would you like to display saved data?');
     if (conf == true) {
       getData();
@@ -49,7 +48,8 @@ const collectData = async(e) => {
       iFeel: e.target.form[3].value,
       iIcon: `${icon}${time}`
     }
-    verifyData(data);
+    const success = await verifyData(data);
+    if (success) getData();
   } catch(e) {
     console.log('Error: ', e);
   }
@@ -93,7 +93,7 @@ const getData = async() => {
   });
   try {
     const data = await res.json();
-    verifyData(data);
+    fillPage(data);
   } catch(e) {
     console.log('error: ', e);
   }
@@ -111,9 +111,10 @@ const verifyData = (data) => {
       Object.defineProperty(data, 'oIcon', {value: ''});
     }
     postData(data);
-    fillPage(data);
+    return true;
   } else {
     alert('Sorry! It appears there is no data stored.  Please complete the form.');
+    return false;
   }
 }
 
